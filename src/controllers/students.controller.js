@@ -51,23 +51,39 @@ export const createStudent = (req, res) => {
             origin: "Controller" });
     }
 
+    const newStudent = new Students(nome, email, idade);
+
     return res.status(201)
         .send({ message: `Bem vindo ao aluno ${nome}, ${email}, sua idade é ${idade}`,
         status: "Dale tudo Ok meu parça" ,
-        origin: "Controller"}
+        origin: "Controller",
+        data: newStudent}
         
         );
 }
 
 export const updateStudent = (req, res) => {
+
     const { nome, email, idade } = req.body;
     const { id } = req.params;
+
     if (!nome || !email || !idade) {
         return res.status(400)
             .send({ message: "Preencha todos os dados",
             status: "Dale tudo RUIM meu parça",
             origin: "Controller"});
     }
+
+    const student = studentsList.getStudentById(id);
+
+    if (!student) {
+        return res.status(404)
+            .send({ message: "Não há alunos cadastrados",
+            status: "Dale tudo RUIM meu parça",
+            origin: "Controller"});
+    }
+
+    studentsList.updateStudent(id, nome, email, idade);
 
     return res.status(200)
         .send({ message: `Bem vindo ao aluno ${nome}, id: ${id}, ${email}, sua idade é ${idade}`,
@@ -77,6 +93,18 @@ export const updateStudent = (req, res) => {
 
 export const deleteStudent = (req, res) => {
     const { id } = req.params;
+
+    const student = studentsList.getStudentById(id);
+
+    if (!student) {
+        return res.status(404)
+            .send({ message: "Não há alunos cadastrados",
+            status: "Dale tudo RUIM meu parça",
+            origin: "Controller"});
+    }
+
+    studentsList.deleteStudent(id);
+
     return res.status(200)
         .send({ message: `Rota DELETE aluno com ID ${id}`,
         status: "Dale tudo Ok meu parça",

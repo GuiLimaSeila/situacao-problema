@@ -52,7 +52,7 @@ export const createCurso = (req, res) => {
 
     const { nome, descricao, limiteVagas } = req.body;
 
-    const curso = new Curso(nome, descricao, limiteVagas);
+
 
     if (!nome || !descricao || !limiteVagas) {
         return res.status(400)
@@ -63,11 +63,15 @@ export const createCurso = (req, res) => {
             });
     }
 
+    const curso = new Curso(nome, descricao, limiteVagas);
+    cursoList.addCurso(curso);
+
     return res.status(201)
         .send({
             message: `Bem vindo ao curso ${nome}, ${descricao}, seu limite de vaga é ${limiteVagas}`,
             status: "Dale tudo Ok meu parça",
-            origin: "Controller"
+            origin: "Controller",
+            data: curso
         }
 
         );
@@ -85,16 +89,44 @@ export const updateCurso = (req, res) => {
             });
     }
 
+    const curso = cursoList.getCursoById(id);
+
+    if (!curso) {
+        return res.status(404)
+            .send({
+                message: "Curso não encontrado",
+                status: "Dale tudo RUIM meu parça",
+                origin: "Controller"
+            });
+    }
+
+    cursoList.updateCurso(id, nome, descricao, limiteVagas);
+
     return res.status(200)
         .send({
             message: `Bem vindo ao curso ${nome}, id: ${id}, ${descricao}, seu limite de vaga é ${limiteVagas}`,
             status: "Dale tudo Ok meu parça",
-            origin: "Controller"
+            origin: "Controller",
+            data: curso
         });
 }
 
 export const deleteCurso = (req, res) => {
     const { id } = req.params;
+
+    const curso = cursoList.getCursoById(id);
+
+    if (!curso) {
+        return res.status(404)
+            .send({
+                message: "Curso não encontrado",
+                status: "Dale tudo RUIM meu parça",
+                origin: "Controller"
+            });
+    }
+
+    cursoList.deleteCurso(id);
+
     return res.status(200)
         .send({
             message: `Rota DELETE curso com ID ${id}`,
