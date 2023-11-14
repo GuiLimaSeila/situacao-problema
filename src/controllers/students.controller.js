@@ -1,4 +1,19 @@
+import { StudentsList } from "../models/students/StudentsList.js";
+import { Students } from "../models/students/Students.js";
+
+const studentsList = new StudentsList();
+
 export const getAllStudents = (req, res) => {
+    const students = studentsList.getAllStudents();
+
+    if (!students.length) {
+        return res.status(404)
+            .send({ message: "Não há alunos cadastrados",
+            status: "Dale tudo RUIM meu parça",
+            origin: "Controller" });
+    }
+
+
     return res.status(200)
         .send({ message: "Todos alunos via controller",
         status: "Dale tudo Ok meu parça",
@@ -7,7 +22,18 @@ export const getAllStudents = (req, res) => {
 };
 
 export const getStudentById = (req, res) => {
+
     const { id } = req.params;
+
+    const studentByID = studentsList.getStudentById(id)
+
+    if (!studentByID.length) {
+        return res.status(404)
+            .send({ message: "Não há alunos cadastrados",
+            status: "Dale tudo RUIM meu parça",
+            origin: "Controller" });
+    }
+
     return res.status(200)
         .send({ message: `Aluno de ID ${id}`,
         status: "Dale tudo Ok meu parça",
