@@ -43,4 +43,5 @@ studantsRouts.delete("/:id", (req, res) => {
         .send({ message: `Rota DELETE aluno com ID ${id}` });
 });
 
+
 export default studantsRouts
