@@ -1,24 +1,24 @@
-export const getAllStudents = (req, res) => {
+export const getAllCurso = (req, res) => {
     return res.status(200)
-        .send({ message: "Todos alunos via controller",
+        .send({ message: "Todos cursos via controller",
         status: "Dale tudo Ok meu parça",
         origin: "Controller"
      });
 };
 
-export const getStudentById = (req, res) => {
+export const getCursoById = (req, res) => {
     const { id } = req.params;
     return res.status(200)
-        .send({ message: `Aluno de ID ${id}`,
+        .send({ message: `Curso de ID ${id}`,
         status: "Dale tudo Ok meu parça",
         origin: "Controller"}
         );
 }
 
-export const createStudent = (req, res) => {
-    const { nome, email, idade } = req.body;
+export const createCurso = (req, res) => {
+    const { nome, descricao, limiteVagas } = req.body;
 
-    if (!nome || !email || !idade) {
+    if (!nome || !descricao || !limiteVagas) {
         return res.status(400)
             .send({ message: "Preencha todos os dados",
             status: "Dale tudo RUIM meu parça",
@@ -26,17 +26,17 @@ export const createStudent = (req, res) => {
     }
 
     return res.status(201)
-        .send({ message: `Bem vindo ao aluno ${nome}, ${email}, sua idade é ${idade}`,
+        .send({ message: `Bem vindo ao curso ${nome}, ${descricao}, seu limite de vaga é ${limiteVagas}`,
         status: "Dale tudo Ok meu parça" ,
         origin: "Controller"}
         
         );
 }
 
-export const updateStudent = (req, res) => {
-    const { nome, email, idade } = req.body;
+export const updateCurso = (req, res) => {
+    const { nome, descricao, limiteVagas } = req.body;
     const { id } = req.params;
-    if (!nome || !email || !idade) {
+    if (!nome || !descricao || !limiteVagas) {
         return res.status(400)
             .send({ message: "Preencha todos os dados",
             status: "Dale tudo RUIM meu parça",
@@ -44,15 +44,15 @@ export const updateStudent = (req, res) => {
     }
 
     return res.status(200)
-        .send({ message: `Bem vindo ao aluno ${nome}, id: ${id}, ${email}, sua idade é ${idade}`,
+        .send({ message: `Bem vindo ao curso ${nome}, id: ${id}, ${descricao}, seu limite de vaga é ${limiteVagas}`,
         status: "Dale tudo Ok meu parça",
         origin: "Controller"});
 }
 
-export const deleteStudent = (req, res) => {
+export const deleteCurso = (req, res) => {
     const { id } = req.params;
     return res.status(200)
-        .send({ message: `Rota DELETE aluno com ID ${id}`,
+        .send({ message: `Rota DELETE curso com ID ${id}`,
         status: "Dale tudo Ok meu parça",
         origin: "Controller"});
 }
