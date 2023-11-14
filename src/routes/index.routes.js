@@ -1,6 +1,9 @@
 import { Router } from "express";
+import studantsRouts from "./students.routes.js";
 
 const router = Router();
+
+router.use("/alunos", studantsRouts)
 
 router.get("/", (req, res) => {
     return res.status(200).send({ message: "Servidor Ok!" });
